@@ -8,9 +8,10 @@ import { Store, counterStateType } from '../reducers/types';
 const history = createHashHistory();
 const rootReducer = createRootReducer(history);
 const router = routerMiddleware(history);
-const enhancer = applyMiddleware(thunk, router);
 
-function configureStore(initialState?: counterStateType): Store {
+function configureStore(db: Db, initialState?: counterStateType): Store {
+  const enhancer = applyMiddleware(thunk.withExtraArgument(db), router);
+
   return createStore(rootReducer, initialState, enhancer);
 }
 
