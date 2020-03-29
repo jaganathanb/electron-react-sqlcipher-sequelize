@@ -1,5 +1,5 @@
-import { GetState, Dispatch } from '../reducers/types';
-import { Database } from '../db/@types';
+import { GetState, Dispatch } from '../@types';
+import { Database } from '../@types';
 
 export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
 export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
@@ -9,7 +9,7 @@ export function increment() {
     const state = getState();
     const model = api.models.Counter;
 
-    await model.findOrCreate({
+    const [record] = await model.findOrCreate({
       where: {
         id: 1
       },
@@ -18,13 +18,31 @@ export function increment() {
       }
     });
 
+    record.count = state.counter;
+    await record.save();
+
     dispatch({ type: INCREMENT_COUNTER });
   };
 }
 
 export function decrement() {
-  return {
-    type: DECREMENT_COUNTER
+  return async (dispatch: Dispatch, getState: GetState, api: Database) => {
+    const state = getState();
+    const model = api.models.Counter;
+
+    const [record] = await model.findOrCreate({
+      where: {
+        id: 1
+      },
+      defaults: {
+        count: state.counter
+      }
+    });
+
+    record.count = state.counter;
+    await record.save();
+
+    dispatch({ type: DECREMENT_COUNTER });
   };
 }
 
