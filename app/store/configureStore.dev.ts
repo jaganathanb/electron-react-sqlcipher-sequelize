@@ -6,6 +6,7 @@ import { createLogger } from 'redux-logger';
 import createRootReducer from '../reducers';
 import * as counterActions from '../actions/counter';
 import { counterStateType } from '../reducers/types';
+import { Db } from '../db/@types';
 
 declare global {
   interface Window {
@@ -25,13 +26,13 @@ const history = createHashHistory();
 
 const rootReducer = createRootReducer(history);
 
-const configureStore = (initialState?: counterStateType) => {
+const configureStore = (db: Db, initialState?: counterStateType) => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
 
   // Thunk Middleware
-  middleware.push(thunk);
+  middleware.push(thunk.withExtraArgument(db));
 
   // Logging Middleware
   const logger = createLogger({

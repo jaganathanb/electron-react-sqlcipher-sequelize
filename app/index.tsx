@@ -5,15 +5,30 @@ import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 
-const store = configureStore();
+import { setupDb, db } from './db';
+
+const store = configureStore(db);
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 
-document.addEventListener('DOMContentLoaded', () =>
-  render(
-    <AppContainer>
-      <Root store={store} history={history} />
-    </AppContainer>,
-    document.getElementById('root')
-  )
-);
+const domReady = async () => {
+  const done = await setupDb();
+
+  if (done) {
+    render(
+      <AppContainer>
+        <Root store={store} history={history} />
+      </AppContainer>,
+      document.getElementById('root')
+    );
+  } else {
+    render(
+      <>
+        <span>Error while loading the application </span>
+      </>,
+      document.getElementById('root')
+    );
+  }
+};
+
+document.addEventListener('DOMContentLoaded', domReady);
