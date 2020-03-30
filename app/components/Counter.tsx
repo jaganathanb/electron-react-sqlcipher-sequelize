@@ -2,17 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Counter.css';
 import routes from '../constants/routes.json';
+import { useSelector, useDispatch } from 'react-redux';
+import { counterStateType } from '../@types';
+import { increment, decrement, incrementIfOdd, incrementAsync } from '../actions/counter';
 
-type Props = {
-  increment: () => void;
-  incrementIfOdd: () => void;
-  incrementAsync: () => void;
-  decrement: () => void;
-  counter: number;
-};
-
-export default function Counter(props: Props) {
-  const { increment, incrementIfOdd, incrementAsync, decrement, counter } = props;
+export default function Counter() {
+  const count = useSelector<counterStateType>((state) => state.counter);
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -22,19 +18,19 @@ export default function Counter(props: Props) {
         </Link>
       </div>
       <div className={`counter ${styles.counter}`} data-tid="counter">
-        {counter}
+        {count}
       </div>
       <div className={styles.btnGroup}>
-        <button className={styles.btn} onClick={increment} data-tclass="btn" type="button">
+        <button className={styles.btn} onClick={() => dispatch(increment())} data-tclass="btn" type="button">
           <i className="fa fa-plus" />
         </button>
-        <button className={styles.btn} onClick={decrement} data-tclass="btn" type="button">
+        <button className={styles.btn} onClick={() => dispatch(decrement())} data-tclass="btn" type="button">
           <i className="fa fa-minus" />
         </button>
-        <button className={styles.btn} onClick={incrementIfOdd} data-tclass="btn" type="button">
+        <button className={styles.btn} onClick={() => dispatch(incrementIfOdd())} data-tclass="btn" type="button">
           odd
         </button>
-        <button className={styles.btn} onClick={() => incrementAsync()} data-tclass="btn" type="button">
+        <button className={styles.btn} onClick={() => dispatch(incrementAsync())} data-tclass="btn" type="button">
           async
         </button>
       </div>
