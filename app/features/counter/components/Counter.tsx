@@ -28,7 +28,7 @@ export default function Counter() {
           <i className="fa fa-minus" />
         </button>
         <button className={styles.btn} onClick={() => dispatch(incrementIfOdd())} data-tclass="btn" type="button">
-          odd
+          odds
         </button>
         <button className={styles.btn} onClick={() => dispatch(incrementAsync())} data-tclass="btn" type="button">
           async

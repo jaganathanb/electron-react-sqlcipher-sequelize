@@ -69,8 +69,9 @@ test('should not change even counter if odd button clicked', async (t) => {
 });
 
 test('should change odd counter if odd button clicked', async (t) => {
+  await t.click(incrementButton).wait(3000);
+
   await t
-    .click(incrementButton)
     .click(oddButton)
     .expect(getCounterText())
     .eql('2');

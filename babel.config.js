@@ -27,7 +27,7 @@ module.exports = (api) => {
       [
         '@babel/plugin-transform-runtime',
         {
-          regenerator: true
+          corejs: 3
         }
       ],
       // Stage 0

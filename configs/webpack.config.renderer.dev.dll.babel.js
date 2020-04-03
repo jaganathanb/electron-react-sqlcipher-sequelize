@@ -30,7 +30,7 @@ export default merge.smart(baseConfig, {
   module: require('./webpack.config.renderer.dev.babel').default.module,
 
   entry: {
-    renderer: Object.keys(dependencies || {})
+    renderer: Object.keys(dependencies || {}).filter((dep) => dep !== '@babel/runtime-corejs3')
   },
 
   output: {
