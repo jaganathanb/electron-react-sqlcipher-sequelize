@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Counter.css';
-import routes from '../constants/routes.json';
+import routes from '../routes.json';
 import { useSelector, useDispatch } from 'react-redux';
 import { counterStateType } from '../@types';
-import { increment, decrement, incrementIfOdd, incrementAsync } from '../actions/counter';
+import { increment, decrement, incrementIfOdd, incrementAsync } from '../actions';
 
 export default function Counter() {
   const count = useSelector<counterStateType>((state) => state.counter);
@@ -28,7 +28,7 @@ export default function Counter() {
           <i className="fa fa-minus" />
         </button>
         <button className={styles.btn} onClick={() => dispatch(incrementIfOdd())} data-tclass="btn" type="button">
-          odd
+          odds
         </button>
         <button className={styles.btn} onClick={() => dispatch(incrementAsync())} data-tclass="btn" type="button">
           async

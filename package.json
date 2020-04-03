@@ -14,7 +14,7 @@
     "ts": "tsc",
     "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "yarn --silent lint --fix",
-    "lint-styles": "stylelint --ignore-path .eslintignore '**/*.*(css|scss)' --syntax scss",
+    "lint-styles": "stylelint --ignore-path .eslintignore **/*.{css,scss}",
     "lint-styles-fix": "yarn --silent lint-styles --fix; exit 0",
     "package": "yarn build && electron-builder build --publish never",
     "package-all": "yarn build && electron-builder build -mwl",
@@ -44,7 +44,7 @@
       "prettier --ignore-path .eslintignore --parser json --write"
     ],
     "*.{css,scss}": [
-      "stylelint --ignore-path .eslintignore --syntax scss --fix",
+      "stylelint --ignore-path .eslintignore --fix",
       "prettier --ignore-path .eslintignore --single-quote --write"
     ],
     "*.{html,md,yml}": [
@@ -180,6 +180,7 @@
     "@babel/plugin-syntax-import-meta": "^7.8.3",
     "@babel/plugin-transform-react-constant-elements": "^7.8.3",
     "@babel/plugin-transform-react-inline-elements": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.8.6",
     "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "^7.8.3",
@@ -209,7 +210,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "browserslist-config-erb": "^0.0.1",
+    "browserslist-config-google": "^2.0.0",
     "chalk": "^3.0.0",
     "concurrently": "^5.0.2",
     "cross-env": "^7.0.0",
@@ -273,6 +274,7 @@
     "yarn": "^1.21.1"
   },
   "dependencies": {
+    "@babel/runtime": "^7.9.2",
     "@fortawesome/fontawesome-free": "^5.12.1",
     "@hot-loader/react-dom": "^16.12.0",
     "connected-react-router": "^6.6.1",
@@ -306,7 +308,7 @@
     "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "browserslist": [
-    "extends browserslist-config-erb"
+    "extends browserslist-config-google/popular"
   ],
   "prettier": {
     "tabWidth": 2,
@@ -326,17 +328,27 @@
       "stylelint-use-nesting"
     ],
     "rules": {
-      "csstools/use-nesting": "always",
+      "csstools/use-nesting": [
+        "always",
+        {
+          "only": [
+            ".scss"
+          ]
+        }
+      ],
       "plugin/declaration-block-no-ignored-properties": true,
       "plugin/no-unsupported-browser-features": [
         true,
         {
           "browsers": [
             "> 1%",
-            "Last 2 versions"
+            "Last 2 versions",
+            "not op_mini all"
           ],
           "ignore": [
-            "rem"
+            "rem",
+            "viewport-units",
+            "css-gradients"
           ]
         }
       ],

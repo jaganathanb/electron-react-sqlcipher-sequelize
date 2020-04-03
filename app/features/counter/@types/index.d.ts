@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize/types';
-import { Counter } from '../db/models/counter';
+import { Counter } from '../../../db/models/counter';
 import { Dispatch as ReduxDispatch, Store as ReduxStore, Action } from 'redux';
 
 interface Database {

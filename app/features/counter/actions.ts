@@ -1,5 +1,5 @@
-import { GetState, Dispatch } from '../@types';
-import { Database } from '../@types';
+import { GetState, Dispatch } from './@types';
+import { Database } from './@types';
 
 export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
 export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';

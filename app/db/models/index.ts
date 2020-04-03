@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 
 import { DbConfig } from '../config';
 import { Counter } from './counter';
-import { Database } from '../../@types';
+import { Database } from '../../features/counter/@types';
 
 const env = process.env.NODE_ENV || 'dev';
 

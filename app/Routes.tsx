@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import routes from './constants/routes.json';
-import App from './containers/App';
-import HomePage from './containers/HomePage';
-import Counter from './components/Counter';
+import routes from './features/counter/routes.json';
+import App from './App';
+import HomePage from './features/counter/containers/HomePage';
+import Counter from './features/counter/components/Counter';
 
 export default function Routes() {
   return (

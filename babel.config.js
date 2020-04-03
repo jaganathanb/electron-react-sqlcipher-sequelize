@@ -24,6 +24,12 @@ module.exports = (api) => {
       [require('@babel/preset-react'), { development }]
     ],
     plugins: [
+      [
+        '@babel/plugin-transform-runtime',
+        {
+          regenerator: true
+        }
+      ],
       // Stage 0
       require('@babel/plugin-proposal-function-bind'),
 
