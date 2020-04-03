@@ -4,9 +4,9 @@ import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
 import createRootReducer from './rootReducer';
-import * as counterActions from './features/counter/actions';
-import { counterStateType } from './features/counter/@types';
-import { Database } from './features/counter/@types';
+import * as counterActions from '../features/counter/actions';
+import { counterStateType } from '../features/counter/@types';
+import { Database } from '../features/counter/@types';
 
 declare global {
   interface Window {

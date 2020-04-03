@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { render } from 'react-dom';
 import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
-import Root from './Root';
+import Root from './components/Root';
 import { configureStore, history } from './store';
-import './app.global.css';
+import '../styles/app.global.css';
 
-import { setupDb, db } from './db';
+import { setupDb, db } from '../db';
 
 const store = configureStore(db);
 
