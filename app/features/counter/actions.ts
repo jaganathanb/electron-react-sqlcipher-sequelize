@@ -9,17 +9,19 @@ export function increment() {
     const state = getState();
     const model = api.models.Counter;
 
-    const [record] = await model.findOrCreate({
-      where: {
-        id: 1
-      },
-      defaults: {
-        count: state.counter
-      }
-    });
+    if (model) {
+      const [record] = await model.findOrCreate({
+        where: {
+          id: 1
+        },
+        defaults: {
+          count: state.counter
+        }
+      });
 
-    record.count = state.counter;
-    await record.save();
+      record.count = state.counter;
+      await record.save();
+    }
 
     dispatch({ type: INCREMENT_COUNTER });
   };

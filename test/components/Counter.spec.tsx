@@ -1,11 +1,14 @@
 /* eslint react/jsx-props-no-spreading: off */
 import { spy } from 'sinon';
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
+import * as ReactRedux from 'react-redux';
+import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { BrowserRouter as Router } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import Counter from '../../app/features/counter/components/Counter';
+import { configureStore, history } from '../../app/core/store';
+import { Database } from '../../app/features/counter/@types';
+import { ConnectedRouter } from 'connected-react-router';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -16,56 +19,70 @@ function setup() {
     incrementAsync: spy(),
     decrement: spy()
   };
-  const component = shallow(<Counter counter={1} {...actions} />);
+
+  jest.spyOn(ReactRedux, 'useSelector').mockImplementation(() => 1);
+
+  const dispatch = jest.fn();
+  jest.spyOn(ReactRedux, 'useDispatch').mockImplementation(() => dispatch);
+
+  const props = configureStore({ models: {} } as Database, { counter: 1 });
+
+  const Component = () => (
+    <ReactRedux.Provider store={props}>
+      <ConnectedRouter history={history}>{<Counter />}</ConnectedRouter>
+    </ReactRedux.Provider>
+  );
+
+  const component = mount(<Component />);
+
   return {
     component,
+    Component,
     actions,
-    buttons: component.find('button'),
+    dispatch,
+    buttons: component.find('[data-tclass="btn"]'),
     p: component.find('.counter')
   };
 }
 
 describe('Counter component', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should should display count', () => {
     const { p } = setup();
     expect(p.text()).toMatch(/^1$/);
   });
 
   it('should first button should call increment', () => {
-    const { buttons, actions } = setup();
+    const { buttons, dispatch } = setup();
     buttons.at(0).simulate('click');
-    expect(actions.increment.called).toBe(true);
+    expect(dispatch).toHaveBeenCalledTimes(1);
   });
 
   it('should match exact snapshot', () => {
-    const { actions } = setup();
-    const counter = (
-      <div>
-        <Router>
-          <Counter counter={1} {...actions} />
-        </Router>
-      </div>
-    );
-    const tree = renderer.create(counter).toJSON();
+    const { Component } = setup();
+    const tree = renderer.create(<Component />).toJSON();
 
     expect(tree).toMatchSnapshot();
   });
 
   it('should second button should call decrement', () => {
-    const { buttons, actions } = setup();
+    const { buttons, dispatch } = setup();
     buttons.at(1).simulate('click');
-    expect(actions.decrement.called).toBe(true);
+    expect(dispatch).toBeCalledTimes(1);
   });
 
   it('should third button should call incrementIfOdd', () => {
-    const { buttons, actions } = setup();
+    const { buttons, dispatch } = setup();
     buttons.at(2).simulate('click');
-    expect(actions.incrementIfOdd.called).toBe(true);
+    expect(dispatch).toBeCalledTimes(1);
   });
 
   it('should fourth button should call incrementAsync', () => {
-    const { buttons, actions } = setup();
+    const { buttons, dispatch } = setup();
     buttons.at(3).simulate('click');
-    expect(actions.incrementAsync.called).toBe(true);
+    expect(dispatch).toBeCalledTimes(1);
   });
 });
